@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/entry_border">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvJobTitleEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chief Executive Officer"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ibDeleteEntry"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="@id/tvJobTitleEntry"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvJobTitleEntry" />
+
+        <TextView
+            android:id="@+id/tvCompanyLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Hired Inc, Miami"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/tvJobTitleEntry"
+            app:layout_constraintTop_toBottomOf="@+id/tvJobTitleEntry" />
+
+        <TextView
+            android:id="@+id/tvEmploymentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Full-time"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvCompanyLocation"
+            app:layout_constraintTop_toBottomOf="@+id/tvCompanyLocation" />
+
+        <TextView
+            android:id="@+id/tvDates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="MMM/YYYY - MMM/YYYY"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvEmploymentType"
+            app:layout_constraintTop_toBottomOf="@+id/tvEmploymentType" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor, odio id maximus convallis, lacus eros tristique velit, vitae volutpat eros nibh at nisi. Quisque vel iaculis neque. Praesent id justo tortor."
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvDates"
+            app:layout_constraintTop_toBottomOf="@+id/tvDates" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

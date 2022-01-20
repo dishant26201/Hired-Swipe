@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/entry_border">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvSchoolNameEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dalhousie University"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ibDeleteEntry"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="@id/tvSchoolNameEntry"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvSchoolNameEntry" />
+
+        <TextView
+            android:id="@+id/tvDegreeFos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Bachelor's degree, Computer Science"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/tvSchoolNameEntry"
+            app:layout_constraintTop_toBottomOf="@+id/tvSchoolNameEntry" />
+
+        <TextView
+            android:id="@+id/tvDates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="MMM/YYYY - MMM/YYYY"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvDegreeFos"
+            app:layout_constraintTop_toBottomOf="@+id/tvDegreeFos" />
+
+        <TextView
+            android:id="@+id/tvGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Grade"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvDates"
+            app:layout_constraintTop_toBottomOf="@+id/tvDates" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porttitor, odio id maximus convallis, lacus eros tristique velit, vitae volutpat eros nibh at nisi. Quisque vel iaculis neque. Praesent id justo tortor."
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvGrade"
+            app:layout_constraintTop_toBottomOf="@+id/tvGrade" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
