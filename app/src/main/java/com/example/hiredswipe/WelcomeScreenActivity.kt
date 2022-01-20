@@ -17,13 +17,11 @@ class WelcomeScreenActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        // when the "next" button is clicked
         binding.ibRoundArrow.setOnClickListener {
+            // move to next activity, but don't kill this one
             val intent = Intent(this@WelcomeScreenActivity, SelectUserTypeActivity::class.java)
             startActivity(intent)
-//            overridePendingTransition(
-//                R.anim.slide_in_right,
-//                R.anim.slide_out_left
-//            )
         }
     }
 }

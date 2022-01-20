@@ -23,14 +23,15 @@ class WorkEntryFormActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        auth = Firebase.auth
+        auth = Firebase.auth // initialise auth
 
-        val uid = auth.currentUser!!.uid
+        val uid = auth.currentUser!!.uid // uid of current user
 
-        val isUpdate = intent.getStringExtra("isUpdate").toString()
+        val isUpdate = intent.getStringExtra("isUpdate").toString() // retrieve isUpdate flag from the previous activity. If "yes" then we are just updating an existing entry, else we are creating a new entry
 
         when (isUpdate) {
-            "yes" -> {
+            "yes" -> { // an existing entry shall be updated
+                // display existing data from the database (sent from the previous activity) in the input fields
                 binding.etJobTitle.setText(intent.getStringExtra("jobTitle"))
                 binding.etCompany.setText(intent.getStringExtra("companyName"))
                 binding.etLocation.setText(intent.getStringExtra("companyLocation"))
@@ -39,10 +40,13 @@ class WorkEntryFormActivity : AppCompatActivity() {
                 binding.etEndYear.setText(intent.getStringExtra("endYear"))
                 binding.etDescription.setText(intent.getStringExtra("description"))
 
+                // when the save button is clicked
                 binding.btnSave.setOnClickListener {
+                    // disable the "save" button
                     binding.btnSave.isEnabled = false
                     binding.btnSave.isClickable = false
 
+                    // capture all the data from the input fields/EditTexts
                     val jobTitle = binding.etJobTitle.text.toString()
                     val companyName = binding.etCompany.text.toString()
                     val companyLocation = binding.etLocation.text.toString()
@@ -50,9 +54,9 @@ class WorkEntryFormActivity : AppCompatActivity() {
                     val startYear = binding.etStartYear.text.toString()
                     val endYear = binding.etEndYear.text.toString()
                     val description = binding.etDescription.text.toString()
-                    val documentId = intent.getStringExtra("documentId").toString()
+                    val documentId = intent.getStringExtra("documentId").toString() // pass the documentId so that the specific document can be accessed from a collection of documents/workEntries
 
-                    // schoolName, degreeType, fieldOfStudy, startYear, and endYear fields cannot be empty. GPA and description is optional
+                    // jobTitle, companyName, companyLocation, employmentType, startYear, and endYear fields cannot be empty. Description is optional
                     if (binding.etJobTitle.text.isEmpty()) {
                         binding.etJobTitle.error = "You cannot leave this field empty"
                     }
@@ -72,6 +76,7 @@ class WorkEntryFormActivity : AppCompatActivity() {
                         binding.etEndYear.error = "You cannot leave this field empty"
                     }
                     else {
+                        // call function to update an entry/document in the database
                         updateDocument(
                             jobTitle,
                             companyName,
@@ -86,11 +91,14 @@ class WorkEntryFormActivity : AppCompatActivity() {
                     }
                 }
             }
-            "no" -> {
+            "no" -> { // a new entry shall be created
+                // when the save button is clicked
                 binding.btnSave.setOnClickListener {
+                    // disable the "save" button
                     binding.btnSave.isEnabled = false
                     binding.btnSave.isClickable = false
 
+                    // capture all the data from the input fields/EditTexts
                     val jobTitle = binding.etJobTitle.text.toString()
                     val companyName = binding.etCompany.text.toString()
                     val companyLocation = binding.etLocation.text.toString()
@@ -99,7 +107,7 @@ class WorkEntryFormActivity : AppCompatActivity() {
                     val endYear = binding.etEndYear.text.toString()
                     val description = binding.etDescription.text.toString()
 
-                    // schoolName, degreeType, fieldOfStudy, startYear, and endYear fields cannot be empty. GPA and description is optional
+                    // jobTitle, companyName, companyLocation, employmentType, startYear, and endYear fields cannot be empty. Description is optional
                     if (binding.etJobTitle.text.isEmpty()) {
                         binding.etJobTitle.error = "You cannot leave this field empty"
                     }
@@ -119,18 +127,22 @@ class WorkEntryFormActivity : AppCompatActivity() {
                         binding.etEndYear.error = "You cannot leave this field empty"
                     }
                     else {
+                        // call function to update an entry/document in the database
                         addWorkToDatabase(jobTitle, companyName, companyLocation, employmentType, startYear, endYear, description, uid)
                     }
                 }
             }
         }
 
+        // when the "close" button is clicked
         binding.ibCloseForm.setOnClickListener {
-            finish();
+            finish() // kill the activity. No changes saved.
         }
     }
 
+    // function to update an entry/document in the database
     private fun addWorkToDatabase(jobTitle: String, companyName: String, companyLocation: String, employmentType: String, startYear: String, endYear: String, description: String, uid: String) {
+        // create a "work entry" object sort of thing
         val workEntry = hashMapOf(
             "jobTitle" to jobTitle,
             "companyName" to companyName,
@@ -140,22 +152,28 @@ class WorkEntryFormActivity : AppCompatActivity() {
             "endYear" to endYear,
             "description" to description,
         )
+
+        // add workEntry to the database
         db.collection("Candidates").document(uid)
-            .collection("Work")
+            .collection("Work") // sub-collection "Work"
             .add(workEntry)
             .addOnSuccessListener {
                 Toast.makeText(this, "Data entered in the database", Toast.LENGTH_SHORT).show()
+                // move to previous activity and kill this activity
                 val intent = Intent(this@WorkEntryFormActivity, WorkSetupActivity::class.java)
                 finish()
                 startActivity(intent)
-            }.addOnFailureListener {
+            }.addOnFailureListener { // if couldn't add to the database
+                // enable the "save" button
                 binding.btnSave.isEnabled = true
                 binding.btnSave.isClickable = true
                 Toast.makeText(this, "Failed to upload to the database", Toast.LENGTH_SHORT).show()
             }
     }
 
+    // update the workEntry in the database
     private fun updateDocument(jobTitle: String, companyName: String, companyLocation: String, employmentType: String, startYear: String, endYear: String, description: String, uid: String, documentId: String) {
+        // create a "work entry" object sort of thing
         val workEntry = hashMapOf(
             "jobTitle" to jobTitle,
             "companyName" to companyName,
@@ -165,15 +183,19 @@ class WorkEntryFormActivity : AppCompatActivity() {
             "endYear" to endYear,
             "description" to description,
         )
+
+        // update(set) workEntry in the database
         db.collection("Candidates").document(uid)
-            .collection("Work").document(documentId)
+            .collection("Work").document(documentId) // particular document/workEntry, accessed by the documentId
             .set(workEntry)
             .addOnSuccessListener {
                 Toast.makeText(this, "Data updated", Toast.LENGTH_SHORT).show()
+                // move to previous activity and kill this activity
                 val intent = Intent(this@WorkEntryFormActivity, WorkSetupActivity::class.java)
                 finish()
                 startActivity(intent)
             }.addOnFailureListener {
+                // enable the "save" button
                 binding.btnSave.isEnabled = true
                 binding.btnSave.isClickable = true
                 Toast.makeText(this, "Failed to update", Toast.LENGTH_SHORT).show()

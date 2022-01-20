@@ -25,16 +25,19 @@ class BasicInfoActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        auth = Firebase.auth
+        auth = Firebase.auth // initialise auth
 
-        val uid = auth.currentUser!!.uid
+        val uid = auth.currentUser!!.uid // uid of current user
 
-        val userType = intent.getStringExtra("userType").toString()
+        val userType = intent.getStringExtra("userType").toString() // get userType from last activity (candidate or recruiter)
 
+        // when the "next" button is clicked
         binding.ibRoundArrow.setOnClickListener {
+            // disable "next" button
             binding.ibRoundArrow.isEnabled = false
             binding.ibRoundArrow.isClickable = false
 
+            // get data from input text fields (firstName, lastName, email, and location)
             val firstName = binding.etFirstNameCandidate.text.toString()
             val lastName = binding.etLastNameCandidate.text.toString()
             val email = binding.etEmailCandidate.text.toString().trim { it <= ' ' }
@@ -53,13 +56,15 @@ class BasicInfoActivity : AppCompatActivity() {
             if (binding.etLocationCandidate.text.isEmpty()) {
                 binding.etLocationCandidate.error = "You cannot leave this field empty"
             }
-            else {
+            else { // if the fields are not empty, add info to database
                 addBasicInfoToDatabase(firstName, lastName, email, location, userType, uid)
             }
         }
     }
 
+    // function to add basic info i.e. candidate entry, to the database
     private fun addBasicInfoToDatabase(firstName: String, lastName: String, email: String, location: String, userType: String, uid: String) {
+        // create a "candidate" object sort of thing
         val candidate = hashMapOf(
             "firstName" to firstName,
             "lastName" to lastName,
@@ -68,15 +73,19 @@ class BasicInfoActivity : AppCompatActivity() {
             "userType" to userType
         )
 
+        // adding the "candidate" to the database
         db.collection("Candidates").document(uid)
             .set(candidate)
             .addOnSuccessListener {
+                // move to next activity and kill this activity
                 val intent = Intent(this@BasicInfoActivity, EducationSetupActivity::class.java)
                 finish()
                 startActivity(intent)
+                // enable next button (can be omitted I guess)
                 binding.ibRoundArrow.isEnabled = true
                 binding.ibRoundArrow.isClickable = true
             }.addOnFailureListener {
+                // enable next button
                 binding.ibRoundArrow.isEnabled = true
                 binding.ibRoundArrow.isClickable = true
                 Toast.makeText(this, "Failed to upload to the database", Toast.LENGTH_SHORT).show()

@@ -17,24 +17,16 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
+        // when the register/join-now button is clicked
         binding.btnJoinNow.setOnClickListener {
             val intent = Intent(this@MainActivity, RegisterActivity::class.java)
             startActivity(intent)
-//            overridePendingTransition(
-//                R.anim.slide_in_right,
-//                R.anim.slide_out_left
-//            )
         }
 
+        // when the sign-in button is clicked
         binding.btnSignIn.setOnClickListener {
             val intent = Intent(this@MainActivity, SignInActivity::class.java)
             startActivity(intent)
-//            overridePendingTransition(
-//                R.anim.slide_in_right,
-//                R.anim.slide_out_left
-//            )
         }
-
     }
 }

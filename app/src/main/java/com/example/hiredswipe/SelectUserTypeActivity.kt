@@ -24,6 +24,7 @@ class SelectUserTypeActivity : AppCompatActivity(), View.OnClickListener {
         val view = binding.root
         setContentView(view)
 
+        // when these views are clicked
         binding.tvCandidateOption.setOnClickListener(this)
         binding.tvRecruiterOption.setOnClickListener(this)
         binding.ibRoundArrow.setOnClickListener(this)
@@ -33,27 +34,25 @@ class SelectUserTypeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tvCandidateOption -> {
-                selectedOptionLook(binding.tvCandidateOption, 1)
+                selectedOptionLook(binding.tvCandidateOption, 1) // function to highlight the "candidate" option
                 userType = "candidate"
             }
             R.id.tvRecruiterOption -> {
-                selectedOptionLook(binding.tvRecruiterOption, 2)
+                selectedOptionLook(binding.tvRecruiterOption, 2) // function to highlight the "recruiter" option
                 userType = "recruiter"
             }
             R.id.ibRoundArrow -> {
+                // move to next activity, but don't kill this one
                 val intent = Intent(this@SelectUserTypeActivity, BasicInfoActivity::class.java)
                 intent.putExtra("userType", userType)
                 startActivity(intent)
-//            overridePendingTransition(
-//                R.anim.slide_in_right,
-//                R.anim.slide_out_left
-//            )
             }
         }
     }
 
     // default look of an option
     private fun defaultOptionLook() {
+        // set default look to both options
         val options = ArrayList<TextView>()
         options.add(0, binding.tvCandidateOption)
         options.add(1, binding.tvRecruiterOption)
@@ -67,7 +66,7 @@ class SelectUserTypeActivity : AppCompatActivity(), View.OnClickListener {
 
     // look of an option when selected
     private fun selectedOptionLook(tv: TextView, selectedOptionNumber: Int) {
-
+        // highlight the selected option
         defaultOptionLook()
         mSelectedOptionPosition = selectedOptionNumber
 

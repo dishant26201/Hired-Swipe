@@ -103,7 +103,6 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         // result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -140,8 +139,9 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?) {
+        // move to the next activity and kill this one
         val intent = Intent(this@SignInActivity, CandidateHomeActivity::class.java)
         startActivity(intent) // start next activity
-        finish() // finish currenrt activity
+        finish() // finish current activity
     }
 }

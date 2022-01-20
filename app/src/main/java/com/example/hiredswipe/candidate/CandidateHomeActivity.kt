@@ -30,10 +30,11 @@ class CandidateHomeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        auth = Firebase.auth
+        auth = Firebase.auth // initialise auth
 
-        val uid = auth.currentUser!!.uid
+        val uid = auth.currentUser!!.uid // uid of current user
 
+        // NAVIGATION COMMENTS BY DHAIRY
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
