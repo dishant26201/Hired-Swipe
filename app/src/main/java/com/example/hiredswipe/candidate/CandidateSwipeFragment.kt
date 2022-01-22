@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
+    //test comment
     // implementing view binding pt.1
     private var _binding: FragmentCandidateSwipeBinding? = null
     private val binding get() = _binding!!
