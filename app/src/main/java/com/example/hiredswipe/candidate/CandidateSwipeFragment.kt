@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.example.hiredswipe.R
 import com.example.hiredswipe.databinding.FragmentCandidateSwipeBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.system.exitProcess
+import androidx.recyclerview.widget.RecyclerView
+
+import android.R.string.no
+import androidx.recyclerview.widget.RecyclerView.OnFlingListener
+
 
 class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
@@ -41,25 +45,43 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = mLayoutManager
 
+        val snapHelper: SnapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(recyclerView)
+
+
         //setHasFixedSize can be used for optimization purposes if we know that the list is constant in size
         recyclerView.setHasFixedSize (true)
 
         val btnYes = binding.btnYes
         val btnNo = binding.btnNo
 
-        btnYes.setOnClickListener { swipeYes() }
-        btnNo.setOnClickListener { swipeNo() }
+        btnYes.setOnClickListener {
+            //getting the correct position for the card which is swiped
+            val cardPos = getCardPos()
+
+            // calling swipeYes with the position
+            swipeYes(cardPos) }
+        btnNo.setOnClickListener {
+            //getting the correct position for the card which is swiped
+            val cardPos = getCardPos()
+
+            // calling swipeNo with the position
+            swipeNo(cardPos)
+        }
 
         // Initializing swipeGesture and passing it to itemTouchHelper
         // then we attach the itemTouchHelper to the recyclerView
         val swipeGesture = object : SwipeGesture(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val itemPos = viewHolder.position
                 when(direction){
                     ItemTouchHelper.LEFT ->{
-                        swipeYes()
+                        Log.i("Card Swiped: ", viewHolder.toString())
+                        swipeYes(itemPos)
                     }
                     ItemTouchHelper.RIGHT->{
-                        swipeNo()
+                        Log.i("Card Swiped: ", viewHolder.toString())
+                        swipeNo(itemPos)
                     }
                 }
 
@@ -72,6 +94,21 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         return view
     }
 
+    private fun getCardPos(): Int {
+        // if layoutManager is not defined yet, we exit with status code -1
+        if(mLayoutManager == null){
+            Log.i("MainAct", "Error, mLayoutManager is not defined")
+            exitProcess(-1)
+        }
+
+        var cardPos = mLayoutManager!!.findFirstCompletelyVisibleItemPosition()
+        //if cardPos = -1, this mean no view is completely visible and we have to align them first
+        if(cardPos == -1){
+            Log.i("MainAct", "Error, could not find a completelyVisibleItem")
+            cardPos = 0
+        }
+        return cardPos
+    }
 
 
     private fun generateDummyList(size: Int): ArrayList<JobItem> {
@@ -89,28 +126,33 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         return list
     }
 
-    fun swipeYes(){
+    fun swipeYes(pos: Int){
         Log.i("MainAct", "Yes Clicked!")
-        val index = mLayoutManager?.findFirstVisibleItemPosition()
-        if (index != null) {
+        if (pos >= 0) {
             //like the profile/job Logic
 
             //Removing the card and updating the adapter
-            jobList.removeAt(index)
-            adapter.notifyItemRemoved(index)
+            jobList.removeAt(pos)
+            adapter.notifyItemRemoved(pos)
+        }
+        // if pos is null or invalid
+        else{
+            Log.i("MainAct", "Error invalid pos: $pos")
         }
     }
 
-    fun swipeNo(){
+    fun swipeNo(pos: Int){
         Log.i("MainAct", "No Clicked")
-
-        val index = mLayoutManager?.findFirstVisibleItemPosition()
-        if (index != null) {
+        if (pos >= 0) {
             //Dislike the profile/job Logic
 
             //Removing the card and updating the adapter
-            jobList.removeAt(index)
-            adapter.notifyItemRemoved(index)
+            jobList.removeAt(pos)
+            adapter.notifyItemRemoved(pos)
+        }
+        // if pos is null or invalid
+        else{
+           Log.i("MainAct", "Error invalid pos: $pos")
         }
     }
 
