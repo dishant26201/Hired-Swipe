@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.hiredswipe.candidate.BasicInfoActivity
+import com.example.hiredswipe.candidate.CandidateBasicInfoActivity
 import com.example.hiredswipe.databinding.ActivitySelectUserTypeBinding
+import com.example.hiredswipe.recruiter.RecruiterBasicInfoActivity
 
 class SelectUserTypeActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -43,9 +45,21 @@ class SelectUserTypeActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.ibRoundArrow -> {
                 // move to next activity, but don't kill this one
-                val intent = Intent(this@SelectUserTypeActivity, BasicInfoActivity::class.java)
-                intent.putExtra("userType", userType)
-                startActivity(intent)
+                if (userType.lowercase().equals("candidate")) {
+                    val intent = Intent(this@SelectUserTypeActivity, CandidateBasicInfoActivity::class.java)
+                    intent.putExtra("userType", userType)
+                    finish()
+                    startActivity(intent)
+                }
+                if (userType.lowercase().equals("recruiter")) {
+                    val intent = Intent(this@SelectUserTypeActivity, RecruiterBasicInfoActivity::class.java)
+                    intent.putExtra("userType", userType)
+                    finish()
+                    startActivity(intent)
+                }
+                else {
+                    Toast.makeText(this@SelectUserTypeActivity, "Please select a valid option", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

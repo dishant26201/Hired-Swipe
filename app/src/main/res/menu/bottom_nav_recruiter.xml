@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings" />
+
+    <item
+        android:id="@+id/recruiterSwipeFragment"
+        android:title="Swipe"
+        android:icon="@drawable/ic_swipe" />
+
+    <item
+        android:id="@+id/someIDforPotentialMatches"
+        android:title="Potential"
+        android:icon="@drawable/ic_potential" />
+
+    <item
+        android:id="@+id/messagesFragment"
+        android:title="Chat"
+        android:icon="@drawable/ic_chat" />
+
+</menu>

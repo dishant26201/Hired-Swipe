@@ -2,14 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/candidateSwipeFragment">
+    android:id="@+id/nav_graph_recruiter"
+    app:startDestination="@id/recruiterSwipeFragment">
 
     <fragment
-        android:id="@+id/candidateSwipeFragment"
-        android:name="com.example.hiredswipe.candidate.CandidateSwipeFragment"
-        android:label="fragment_candidate_swipe"
-        tools:layout="@layout/fragment_candidate_swipe" >
+        android:id="@+id/recruiterSwipeFragment"
+        android:name="com.example.hiredswipe.recruiter.RecruiterSwipeFragment"
+        android:label="fragment_recruiter_swipe"
+        tools:layout="@layout/fragment_recruiter_swipe" >
 <!--        <action-->
 <!--            android:id="@+id/action_candidateSwipeFragment_to_settingsFragment"-->
 <!--            app:destination="@id/settingsFragment" />-->

@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/layout/activity_education_entry_form.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_education_setup.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_recruiter_home.xml" value="0.17604166666666668" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.296195652173913" />
         <entry key="app/src/main/res/layout/activity_select_user_type.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.296195652173913" />
@@ -30,6 +31,7 @@
         <entry key="app/src/main/res/layout/activity_work_setup.xml" value="0.33" />
         <entry key="app/src/main/res/layout/education_entry.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_candidate_swipe.xml" value="0.18659420289855072" />
+        <entry key="app/src/main/res/layout/fragment_recruiter_swipe.xml" value="0.17604166666666668" />
         <entry key="app/src/main/res/layout/ic_person_elderly.xml" value="0.33152173913043476" />
         <entry key="app/src/main/res/layout/job_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/work_entry.xml" value="0.3491847826086957" />

@@ -1,4 +1,4 @@
-package com.example.hiredswipe.candidate
+package com.example.hiredswipe.recruiter
 
 import android.os.Bundle
 import android.util.Log
@@ -7,27 +7,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
+import com.example.hiredswipe.Candidate
 import com.example.hiredswipe.R
-import com.example.hiredswipe.databinding.FragmentCandidateSwipeBinding
+import com.example.hiredswipe.Recruiter
+import com.example.hiredswipe.databinding.FragmentRecruiterSwipeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
-import androidx.recyclerview.widget.RecyclerView
 
-class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
-    private val TAG = "CandidateSwipeFragment"
-  
+class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
+
+    private val TAG = "RecruiterSwipeFragment"
+
     // implementing view binding pt.1
-    private var _binding: FragmentCandidateSwipeBinding? = null
+    private var _binding: FragmentRecruiterSwipeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var jobArrayList : ArrayList<JobItem> // arraylist to store job postings
-    private lateinit var candidateSwipeAdapter: CandidateSwipeAdapter // adapter
+    private lateinit var candidateArrayList : ArrayList<Candidate> // arraylist to store candidates
+    private lateinit var recruiterSwipeAdapter: RecruiterSwipeAdapter // adapter
     private var mLayoutManager: LinearLayoutManager? = null // layoutManager
     private lateinit var recyclerView: RecyclerView // RecyclerView
 
@@ -37,21 +44,30 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // implementing view binding pt.2
-        _binding = FragmentCandidateSwipeBinding.inflate(inflater, container, false)
+        _binding = FragmentRecruiterSwipeBinding.inflate(inflater, container, false)
         val view = binding.root
 
         auth = Firebase.auth // initialise auth
         val uid = auth.currentUser!!.uid // uid of current user
 
+
         mLayoutManager = LinearLayoutManager(activity?.applicationContext)
-        recyclerView = binding.recyclerView
+        recyclerView = binding.recyclerView2
         recyclerView.layoutManager = mLayoutManager
         recyclerView.setHasFixedSize(true) // setHasFixedSize can be used for optimization purposes if we know that the list/rv is constant in size, and is not affected by the adapters size
-        jobArrayList = arrayListOf()
-        candidateSwipeAdapter = CandidateSwipeAdapter(jobArrayList)
-        recyclerView.adapter = candidateSwipeAdapter
+        candidateArrayList = arrayListOf()
+        recruiterSwipeAdapter = RecruiterSwipeAdapter(candidateArrayList)
+        recyclerView.adapter = recruiterSwipeAdapter
 
-        EventChangeListener()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            var swipedLeft = db.collection("Recruiters").document(uid)
+                .get().await()
+                .toObject(Recruiter::class.java)!!.swipedLeft
+            withContext(Dispatchers.Main) {
+                EventChangeListener(uid, swipedLeft!!)
+            }
+        }
 
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerView)
@@ -59,15 +75,13 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         val btnYes = binding.btnYes
         val btnNo = binding.btnNo
 
-        // onClick listeners for both Yes, No butttons
         btnYes.setOnClickListener {
-            
+
             val cardPos = getCardPos()  //getting the correct position for the card which is swiped
             swipeYes(cardPos)  // calling swipeYes with the position
         }
-
         btnNo.setOnClickListener {
-          
+
             val cardPos = getCardPos()  //getting the correct position for the card which is swiped
             swipeNo(cardPos)  // calling swipeNo with the position
         }
@@ -101,16 +115,20 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
         // Initializing swipeGesture and passing it to itemTouchHelper
         // then we attach the itemTouchHelper to the recyclerView
-        val swipeGesture = object : CandidateSwipeGesture(){
+        val swipeGesture = object : RecruiterSwipeGesture(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val swipedCandidate = candidateArrayList[viewHolder.position]
                 val itemPos = viewHolder.position
-                when(direction){
+                when (direction){
                     ItemTouchHelper.LEFT ->{
-                        Log.i("Card Swiped: ", viewHolder.toString())
+                        db.collection("Recruiters").document(uid)
+                            .update("swipedLeft", FieldValue.arrayUnion(swipedCandidate.id.toString()))
                         swipeYes(itemPos)
                     }
                     ItemTouchHelper.RIGHT->{
-                        Log.i("Card Swiped: ", viewHolder.toString())
+                        Log.d(TAG, candidateArrayList[viewHolder.position].id.toString())
+                        db.collection("Recruiters").document(uid)
+                            .update("swipedRight", FieldValue.arrayUnion(swipedCandidate.id.toString()))
                         swipeNo(itemPos)
                     }
                 }
@@ -124,25 +142,51 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         return view
     }
 
-    private fun EventChangeListener() {
-        db.collection("Recruiters").orderBy("name", Query.Direction.ASCENDING)
-            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null) {
-                        Log.d(TAG, "Firestore error: ${error.message.toString()}")
-                        return
-                    } else {
-                        for (dc: DocumentChange in value?.documentChanges!!) {
-                            if (dc.type == DocumentChange.Type.ADDED) {
-                                jobArrayList.add(dc.document.toObject(JobItem::class.java))
+    private fun EventChangeListener(uid : String, swipedLeft : List<String>) {
+        db.collection("Candidates").orderBy("firstName", Query.Direction.ASCENDING).
+        addSnapshotListener(object : EventListener<QuerySnapshot> {
+            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                if (error != null) {
+                    Log.d(TAG, "Firestore error: ${error.message.toString()}")
+                    return
+                }
+                else {
+                    for (dc : DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            val documentCandidate = dc.document
+                            if (swipedLeft.contains(documentCandidate.id)) {
+                                Log.d(TAG, "document not shown")
+                            }
+                            else {
+                                val candidate = Candidate(documentCandidate["firstName"].toString(), documentCandidate["lastName"].toString(), documentCandidate.id)
+                                // candidateArrayList.add(dc.document.toObject(Candidate::class.java))
+                                candidateArrayList.add(candidate)
                             }
                         }
-                        candidateSwipeAdapter.notifyDataSetChanged()
                     }
+                    recruiterSwipeAdapter.notifyDataSetChanged()
                 }
-            })
+            }
+        })
     }
-            
+
+    private fun getSwipedLeftArray(uid: String) : List<String> {
+        var swipedLeft = listOf<String>()
+        db.collection("Recruiters").document(uid)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    swipedLeft = document.toObject(Recruiter::class.java)!!.swipedLeft!!
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+        return swipedLeft
+    }
+
     private fun getCardPos(): Int {
         // if layoutManager is not defined yet, we exit with status code -1
         if(mLayoutManager == null){
@@ -159,32 +203,16 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         return cardPos
     }
 
-
-//     private fun generateDummyList(size: Int): ArrayList<JobItem> {
-//         val list = ArrayList<JobItem>()
-//         for (i in 0 until size) {
-//             val drawable = when (i % 4) {
-//                 0 -> R.drawable.ic_person_wave
-//                 1 -> R.drawable.ic_person_elderly
-//                 2 -> R.drawable.ic_person_sports
-//                 else -> R.drawable.ic_person_sus
-//             }
-//             val item = JobItem(drawable, "Item $i", "Line 2")
-//             list += item
-//         }
-//         return list
-//     }
-
     fun swipeYes(index: Int){
         Log.i("MainAct", "Yes Clicked!")
+
         if (index >= 0) {
             //like the profile/job Logic
 
             //Removing the card and updating the adapter
-            jobArrayList.removeAt(index)
-            candidateSwipeAdapter.notifyItemRemoved(index)
+            candidateArrayList.removeAt(index)
+            recruiterSwipeAdapter.notifyItemRemoved(index)
         }
-        // if pos is null or invalid
         else{
             Log.i("MainAct", "Error invalid pos: $index")
         }
@@ -192,16 +220,17 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
     fun swipeNo(index: Int){
         Log.i("MainAct", "No Clicked")
+
+
         if (index >= 0) {
             //Dislike the profile/job Logic
 
             //Removing the card and updating the adapter
-            jobArrayList.removeAt(index)
-            candidateSwipeAdapter.notifyItemRemoved(index)
+            candidateArrayList.removeAt(index)
+            recruiterSwipeAdapter.notifyItemRemoved(index)
         }
-        // if pos is null or invalid
         else{
-           Log.i("MainAct", "Error invalid pos: $index")
+            Log.i("MainAct", "Error invalid pos: $index")
         }
     }
 }
