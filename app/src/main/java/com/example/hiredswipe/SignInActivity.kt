@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.hiredswipe.candidate.CandidateHomeActivity
 import com.example.hiredswipe.databinding.ActivitySignInBinding
+import com.example.hiredswipe.recruiter.RecruiterHomeActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -16,12 +17,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding // implementing view binding pt.1
     private lateinit var auth: FirebaseAuth // declare auth
+    private val db = Firebase.firestore // cloud firestore
     private lateinit var googleSignInClient: GoogleSignInClient // declare GoogleSignInClient
     private val RC_SIGN_IN = 0
 
@@ -86,8 +89,37 @@ class SignInActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(ContentValues.TAG, "signInWithEmail:success")
                         val user = auth.currentUser
-                        updateUI(user)
-                    } else {
+                        db.collection("Candidates").document(user!!.uid).get().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val document = task.result
+                                if(document != null) {
+                                    if (document.exists()) {
+                                        updateUICandidate(user)
+                                    } else {
+                                        db.collection("Recruiters").document(user!!.uid)
+                                            .get().addOnCompleteListener { task ->
+                                                if (task.isSuccessful) {
+                                                    val document = task.result
+                                                    if(document != null) {
+                                                        if (document.exists()) {
+                                                            updateUIRecruiter(user)
+                                                        } else {
+                                                            Log.w(ContentValues.TAG, "signInWithCredential:failure", task.exception)
+                                                        }
+                                                    }
+                                                } else {
+                                                    Log.d("TAG", "Error: ", task.exception)
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                            else {
+                                Log.d("TAG", "Error: ", task.exception)
+                            }
+                        }
+                    }
+                    else {
                         // If sign in fails, display a message to the user.
                         Log.w(ContentValues.TAG, "signInWithEmail:failure", task.exception)
                         Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
@@ -126,7 +158,36 @@ class SignInActivity : AppCompatActivity() {
                     // sign in success, update UI with the signed-in user's information
                     Log.d(ContentValues.TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-                    updateUI(user)
+                    db.collection("Candidates").document(user!!.uid)
+                        .get().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val document = task.result
+                            if(document != null) {
+                                if (document.exists()) {
+                                    updateUICandidate(user)
+                                } else {
+                                    db.collection("Recruiters").document(user!!.uid)
+                                        .get().addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                val document = task.result
+                                                if(document != null) {
+                                                    if (document.exists()) {
+                                                        updateUIRecruiter(user)
+                                                    } else {
+                                                        Log.w(ContentValues.TAG, "signInWithCredential:failure", task.exception)
+                                                    }
+                                                }
+                                            } else {
+                                                Log.d("TAG", "Error: ", task.exception)
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                        else {
+                            Log.d("TAG", "Error: ", task.exception)
+                        }
+                    }
                 } else {
                     // if sign in fails, display a message to the user.
                     Log.w(ContentValues.TAG, "signInWithCredential:failure", task.exception)
@@ -138,7 +199,14 @@ class SignInActivity : AppCompatActivity() {
     private fun reload() {
     }
 
-    private fun updateUI(user: FirebaseUser?) {
+    private fun updateUIRecruiter(user: FirebaseUser?) {
+        // move to the next activity and kill this one
+        val intent = Intent(this@SignInActivity, RecruiterHomeActivity::class.java)
+        startActivity(intent) // start next activity
+        finish() // finish current activity
+    }
+
+    private fun updateUICandidate(user: FirebaseUser?) {
         // move to the next activity and kill this one
         val intent = Intent(this@SignInActivity, CandidateHomeActivity::class.java)
         startActivity(intent) // start next activity

@@ -4,29 +4,26 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.hiredswipe.R
-import com.example.hiredswipe.WelcomeScreenActivity
-import com.example.hiredswipe.databinding.ActivityBasicInfoBinding
+import com.example.hiredswipe.databinding.ActivityCandidateBasicInfoBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class BasicInfoActivity : AppCompatActivity() {
+class CandidateBasicInfoActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityBasicInfoBinding // implementing view binding pt.1
+    private lateinit var binding: ActivityCandidateBasicInfoBinding // implementing view binding pt.1
     private val db = Firebase.firestore // cloud firestore
     private lateinit var auth: FirebaseAuth // declare auth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // implementing view binding pt.2
         super.onCreate(savedInstanceState)
-        binding = ActivityBasicInfoBinding.inflate(layoutInflater)
+        binding = ActivityCandidateBasicInfoBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
         auth = Firebase.auth // initialise auth
-
         val uid = auth.currentUser!!.uid // uid of current user
 
         val userType = intent.getStringExtra("userType").toString() // get userType from last activity (candidate or recruiter)
@@ -78,7 +75,7 @@ class BasicInfoActivity : AppCompatActivity() {
             .set(candidate)
             .addOnSuccessListener {
                 // move to next activity and kill this activity
-                val intent = Intent(this@BasicInfoActivity, EducationSetupActivity::class.java)
+                val intent = Intent(this@CandidateBasicInfoActivity, EducationSetupActivity::class.java)
                 finish()
                 startActivity(intent)
                 // enable next button (can be omitted I guess)

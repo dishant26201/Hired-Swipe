@@ -13,6 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HiredSwipe">
         <activity
+            android:name=".recruiter.RecruiterHomeActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".recruiter.RecruiterBasicInfoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".candidate.CandidateHomeActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -33,7 +41,7 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".candidate.BasicInfoActivity"
+            android:name=".candidate.CandidateBasicInfoActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity

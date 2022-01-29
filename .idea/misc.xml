@@ -5,34 +5,36 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_settings.xml" value="0.2861111111111111" />
         <entry key="app/src/main/res/drawable-v24/selected_option_background.xml" value="0.2564814814814815" />
-        <entry key="app/src/main/res/drawable/background_border.xml" value="0.14351851851851852" />
         <entry key="app/src/main/res/drawable/classic_blue_button.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/classic_white_button.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/entry_border.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/et_style.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/ic_add_circle.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/ic_round_arrow.xml" value="0.30666666666666664" />
-        <entry key="app/src/main/res/drawable/ic_thumb_down.xml" value="0.14351851851851852" />
-        <entry key="app/src/main/res/drawable/ic_thumb_up.xml" value="0.14351851851851852" />
         <entry key="app/src/main/res/drawable/round_button.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/layout/activity_basic_info.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/activity_candidate_basic_info.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_candidate_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_candidate_swipe.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_education_entry_form.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_education_setup.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_recruiter_basic_info.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_recruiter_home.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.296195652173913" />
         <entry key="app/src/main/res/layout/activity_select_user_type.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.296195652173913" />
         <entry key="app/src/main/res/layout/activity_welcome_screen.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_work_entry_form.xml" value="0.3491847826086957" />
         <entry key="app/src/main/res/layout/activity_work_setup.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/candidate_item.xml" value="0.19972826086956522" />
         <entry key="app/src/main/res/layout/education_entry.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_candidate_swipe.xml" value="0.18659420289855072" />
-        <entry key="app/src/main/res/layout/ic_person_elderly.xml" value="0.33152173913043476" />
-        <entry key="app/src/main/res/layout/job_item.xml" value="0.33152173913043476" />
+        <entry key="app/src/main/res/layout/fragment_recruiter_swipe.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/job_item.xml" value="0.14361702127659576" />
         <entry key="app/src/main/res/layout/work_entry.xml" value="0.3491847826086957" />
         <entry key="app/src/main/res/menu/bottom_nav_candidate.xml" value="0.2953125" />
+        <entry key="app/src/main/res/menu/bottom_nav_recruiter.xml" value="0.2953125" />
       </map>
     </option>
   </component>
