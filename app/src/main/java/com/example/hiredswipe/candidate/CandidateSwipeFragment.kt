@@ -5,17 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.example.hiredswipe.R
 import com.example.hiredswipe.databinding.FragmentCandidateSwipeBinding
-import com.google.firebase.auth.FirebaseAuth
 import kotlin.system.exitProcess
 import androidx.recyclerview.widget.RecyclerView
-
-import android.R.string.no
-import androidx.recyclerview.widget.RecyclerView.OnFlingListener
 
 
 class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
@@ -55,12 +50,15 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         val btnYes = binding.btnYes
         val btnNo = binding.btnNo
 
+        // onClick listeners for both Yes, No butttons
         btnYes.setOnClickListener {
             //getting the correct position for the card which is swiped
             val cardPos = getCardPos()
 
             // calling swipeYes with the position
-            swipeYes(cardPos) }
+            swipeYes(cardPos)
+        }
+
         btnNo.setOnClickListener {
             //getting the correct position for the card which is swiped
             val cardPos = getCardPos()
@@ -68,6 +66,33 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
             // calling swipeNo with the position
             swipeNo(cardPos)
         }
+
+        //As we want both the buttons to be disabled when we are scrolling, we add a scrollListner
+        //to our recyclerView object
+        //scrollListener enables the buttons when were are in SCROLL_STATE_IDLE (not scrolling)
+        //and disabled the buttons when we are in any other state
+        val scrollListener = object: RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    Log.i("MainAct", "In Scroll_State_Idle")
+                    btnYes.isEnabled = true
+                    btnYes.isClickable = true
+
+                    btnNo.isClickable = true
+                    btnNo.isEnabled = true
+                }
+                //if we are in any state other than idle (scrolling, slowing down) then we disable the buttons
+                else{
+                    btnYes.isEnabled = false
+                    btnYes.isClickable = false
+
+                    btnNo.isClickable = false
+                    btnNo.isEnabled = false
+                }
+            }
+        }
+        recyclerView.addOnScrollListener(scrollListener)
 
         // Initializing swipeGesture and passing it to itemTouchHelper
         // then we attach the itemTouchHelper to the recyclerView
