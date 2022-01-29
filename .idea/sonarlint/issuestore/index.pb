@@ -9,13 +9,5 @@ h
 8app/src/main/java/com/example/hiredswipe/MainActivity.kt,f/2/f2bb4f3a22c45e668527d5d5c1a96c1dae34839e
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
-@
-app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 r
 Bapp/src/main/java/com/example/hiredswipe/candidate/SwipeGesture.kt,d/3/d346ac887d85a8e2d1a1949028b7d7bb87dd3755
-{
-Kapp/src/main/java/com/example/hiredswipe/candidate/CandidateSwipeAdapter.kt,0/7/074fb55d4665ae94b9e3b4ab9d62a92d7c186ba6
-{
-Kapp/src/main/java/com/example/hiredswipe/candidate/CandidateHomeActivity.kt,c/3/c3458274cbdf188db9fbe96ef76921832f9b9bc8
-|
-Lapp/src/main/java/com/example/hiredswipe/candidate/CandidateSwipeFragment.kt,7/1/71533c543b6dd5058df35307e8903cb805dd2066

@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.example.hiredswipe.Candidate
 import com.example.hiredswipe.R
 import com.example.hiredswipe.Recruiter
@@ -24,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlin.collections.ArrayList
+import kotlin.system.exitProcess
 
 
 class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
@@ -70,28 +69,67 @@ class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
             }
         }
 
+        val snapHelper: SnapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(recyclerView)
+
         val btnYes = binding.btnYes
         val btnNo = binding.btnNo
 
-        btnYes.setOnClickListener { swipeYes() }
-        btnNo.setOnClickListener { swipeNo() }
+        btnYes.setOnClickListener {
+
+            val cardPos = getCardPos()  //getting the correct position for the card which is swiped
+            swipeYes(cardPos)  // calling swipeYes with the position
+        }
+        btnNo.setOnClickListener {
+
+            val cardPos = getCardPos()  //getting the correct position for the card which is swiped
+            swipeNo(cardPos)  // calling swipeNo with the position
+        }
+
+        //As we want both the buttons to be disabled when we are scrolling, we add a scrollListener
+        //to our recyclerView object
+        //scrollListener enables the buttons when were are in SCROLL_STATE_IDLE (not scrolling)
+        //and disabled the buttons when we are in any other state
+        val scrollListener = object: RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    Log.i("MainAct", "In Scroll_State_Idle")
+                    btnYes.isEnabled = true
+                    btnYes.isClickable = true
+
+                    btnNo.isClickable = true
+                    btnNo.isEnabled = true
+                }
+                //if we are in any state other than idle (scrolling, slowing down) then we disable the buttons
+                else{
+                    btnYes.isEnabled = false
+                    btnYes.isClickable = false
+
+                    btnNo.isClickable = false
+                    btnNo.isEnabled = false
+                }
+            }
+        }
+        recyclerView.addOnScrollListener(scrollListener)
 
         // Initializing swipeGesture and passing it to itemTouchHelper
         // then we attach the itemTouchHelper to the recyclerView
         val swipeGesture = object : RecruiterSwipeGesture(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val swipedCandidate = candidateArrayList[viewHolder.position]
+                val itemPos = viewHolder.position
                 when (direction){
                     ItemTouchHelper.LEFT ->{
                         db.collection("Recruiters").document(uid)
                             .update("swipedLeft", FieldValue.arrayUnion(swipedCandidate.id.toString()))
-                        swipeYes()
+                        swipeYes(itemPos)
                     }
                     ItemTouchHelper.RIGHT->{
                         Log.d(TAG, candidateArrayList[viewHolder.position].id.toString())
                         db.collection("Recruiters").document(uid)
                             .update("swipedRight", FieldValue.arrayUnion(swipedCandidate.id.toString()))
-                        swipeNo()
+                        swipeNo(itemPos)
                     }
                 }
 
@@ -149,28 +187,50 @@ class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
         return swipedLeft
     }
 
-    fun swipeYes(){
+    private fun getCardPos(): Int {
+        // if layoutManager is not defined yet, we exit with status code -1
+        if(mLayoutManager == null){
+            Log.i("MainAct", "Error, mLayoutManager is not defined")
+            exitProcess(-1)
+        }
+
+        var cardPos = mLayoutManager!!.findFirstCompletelyVisibleItemPosition()
+        //if cardPos = -1, this mean no view is completely visible and we have to align them first
+        if(cardPos == -1){
+            Log.i("MainAct", "Error, could not find a completelyVisibleItem")
+            cardPos = 0
+        }
+        return cardPos
+    }
+
+    fun swipeYes(index: Int){
         Log.i("MainAct", "Yes Clicked!")
-        val index = mLayoutManager?.findFirstVisibleItemPosition()
-        if (index != null) {
+
+        if (index >= 0) {
             //like the profile/job Logic
 
             //Removing the card and updating the adapter
             candidateArrayList.removeAt(index)
             recruiterSwipeAdapter.notifyItemRemoved(index)
         }
+        else{
+            Log.i("MainAct", "Error invalid pos: $index")
+        }
     }
 
-    fun swipeNo(){
+    fun swipeNo(index: Int){
         Log.i("MainAct", "No Clicked")
 
-        val index = mLayoutManager?.findFirstVisibleItemPosition()
-        if (index != null) {
+
+        if (index >= 0) {
             //Dislike the profile/job Logic
 
             //Removing the card and updating the adapter
             candidateArrayList.removeAt(index)
             recruiterSwipeAdapter.notifyItemRemoved(index)
+        }
+        else{
+            Log.i("MainAct", "Error invalid pos: $index")
         }
     }
 }

@@ -125,15 +125,14 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
     }
 
     private fun EventChangeListener() {
-        db.collection("Recruiters").orderBy("name", Query.Direction.ASCENDING).
-            addSnapshotListener(object : EventListener<QuerySnapshot> {
+        db.collection("Recruiters").orderBy("name", Query.Direction.ASCENDING)
+            .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {
                         Log.d(TAG, "Firestore error: ${error.message.toString()}")
                         return
-                    }
-                    else {
-                        for (dc : DocumentChange in value?.documentChanges!!) {
+                    } else {
+                        for (dc: DocumentChange in value?.documentChanges!!) {
                             if (dc.type == DocumentChange.Type.ADDED) {
                                 jobArrayList.add(dc.document.toObject(JobItem::class.java))
                             }
@@ -142,6 +141,7 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
                     }
                 }
             })
+    }
             
     private fun getCardPos(): Int {
         // if layoutManager is not defined yet, we exit with status code -1
@@ -175,9 +175,9 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 //         return list
 //     }
 
-    fun swipeYes(pos: Int){
+    fun swipeYes(index: Int){
         Log.i("MainAct", "Yes Clicked!")
-        if (pos >= 0) {
+        if (index >= 0) {
             //like the profile/job Logic
 
             //Removing the card and updating the adapter
@@ -186,13 +186,13 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         }
         // if pos is null or invalid
         else{
-            Log.i("MainAct", "Error invalid pos: $pos")
+            Log.i("MainAct", "Error invalid pos: $index")
         }
     }
 
-    fun swipeNo(pos: Int){
+    fun swipeNo(index: Int){
         Log.i("MainAct", "No Clicked")
-        if (pos >= 0) {
+        if (index >= 0) {
             //Dislike the profile/job Logic
 
             //Removing the card and updating the adapter
@@ -201,7 +201,7 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         }
         // if pos is null or invalid
         else{
-           Log.i("MainAct", "Error invalid pos: $pos")
+           Log.i("MainAct", "Error invalid pos: $index")
         }
     }
 }
