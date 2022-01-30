@@ -14,7 +14,9 @@
         <entry key="app/src/main/res/drawable/ic_add_circle.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/ic_round_arrow.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/ic_thumb_down.xml" value="0.14351851851851852" />
+        <entry key="app/src/main/res/drawable/ic_thumb_down_disabled.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/ic_thumb_up.xml" value="0.14351851851851852" />
+        <entry key="app/src/main/res/drawable/ic_thumb_up_disabled.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/round_button.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/layout/activity_basic_info.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_candidate_home.xml" value="0.335" />
