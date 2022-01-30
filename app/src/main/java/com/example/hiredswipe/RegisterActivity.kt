@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth // declare auth
     private lateinit var googleSignInClient: GoogleSignInClient // declare GoogleSignInClient
     private val RC_SIGN_IN = 0
+    private val defaultWebClientId = "464702421423-cd37rq6c0th0ipjur4pjfi84t4h3n0t9.apps.googleusercontent.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // implementing view binding pt.2
@@ -36,7 +37,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken(defaultWebClientId)
             .requestEmail()
             .build()
 
@@ -53,6 +54,16 @@ class RegisterActivity : AppCompatActivity() {
         binding.signInButton.setOnClickListener{
             signIn()
         }
+
+        // when user presses on "Sign In" textView
+        binding.tvSignIn.setOnClickListener{
+
+            // move to the SignInActivity and kill this one
+            val intent = Intent(this@RegisterActivity, SignInActivity::class.java)
+            startActivity(intent) // start next activity
+            finish() // finish current activity
+        }
+
     }
 
     override fun onStart() {

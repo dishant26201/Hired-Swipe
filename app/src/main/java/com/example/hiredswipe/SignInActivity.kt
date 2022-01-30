@@ -27,6 +27,7 @@ class SignInActivity : AppCompatActivity() {
     private val db = Firebase.firestore // cloud firestore
     private lateinit var googleSignInClient: GoogleSignInClient // declare GoogleSignInClient
     private val RC_SIGN_IN = 0
+    private val defaultWebClientId = "464702421423-cd37rq6c0th0ipjur4pjfi84t4h3n0t9.apps.googleusercontent.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // implementing view binding pt.2
@@ -40,7 +41,8 @@ class SignInActivity : AppCompatActivity() {
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
+            //.requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken(defaultWebClientId)
             .requestEmail()
             .build()
 
@@ -54,6 +56,15 @@ class SignInActivity : AppCompatActivity() {
         // when the google sign in button is clicked
         binding.signInButton.setOnClickListener{
             signIn()
+        }
+
+        // when user presses on "Join Now" textView
+        binding.tvJoinNow.setOnClickListener{
+
+            // move to the RegisterActivity and kill this one
+            val intent = Intent(this@SignInActivity, RegisterActivity::class.java)
+            startActivity(intent) // start next activity
+            finish() // finish current activity
         }
     }
 
@@ -96,7 +107,7 @@ class SignInActivity : AppCompatActivity() {
                                     if (document.exists()) {
                                         updateUICandidate(user)
                                     } else {
-                                        db.collection("Recruiters").document(user!!.uid)
+                                        db.collection("Recruiters").document(user.uid)
                                             .get().addOnCompleteListener { task ->
                                                 if (task.isSuccessful) {
                                                     val document = task.result
