@@ -95,17 +95,21 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
                     Log.i(TAG, "In Scroll_State_Idle")
                     btnYes.isEnabled = true
                     btnYes.isClickable = true
+                    btnYes.setImageResource(R.drawable.ic_thumb_up)
 
                     btnNo.isClickable = true
                     btnNo.isEnabled = true
+                    btnNo.setImageResource(R.drawable.ic_thumb_down)
                 }
                 //if we are in any state other than idle (scrolling, slowing down) then we disable the buttons
                 else{
                     btnYes.isEnabled = false
                     btnYes.isClickable = false
+                    btnYes.setImageResource(R.drawable.ic_thumb_up_disabled)
 
                     btnNo.isClickable = false
                     btnNo.isEnabled = false
+                    btnNo.setImageResource(R.drawable.ic_thumb_down_disabled)
                 }
             }
         }
