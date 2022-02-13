@@ -22,7 +22,7 @@ class RecruiterSwipeAdapter(private val candidateList: ArrayList<Candidate>) :
     override fun onBindViewHolder(holder: ExampleViewHolder, position: Int) {
         val currentItem = candidateList[position]
         //filling or updating the data into viewHolder from correct position in the exampleList
-        holder.textView1.text = currentItem.firstName.toString() + " " + currentItem.lastName.toString()
+        holder.textView1.text = "${currentItem.firstName.toString()} ${currentItem.lastName.toString()}"
     }
 
     // method which returns the size of the arraylist

@@ -1,3 +1,9 @@
 package com.example.hiredswipe
 
-data class Candidate(val firstName: String? = null, val lastName: String? = null, val id: String? = null) {}
+data class Candidate(
+    var firstName: String? = "",
+    var lastName: String? = "",
+    var swipedLeft: List<String>? = emptyList(),
+    var swipedRight: List<String>? = emptyList(),
+    var id: String? = ""
+) { }

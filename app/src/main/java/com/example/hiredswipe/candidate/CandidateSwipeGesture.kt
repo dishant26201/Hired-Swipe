@@ -1,10 +1,7 @@
 package com.example.hiredswipe.candidate
 
-import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.coroutines.coroutineContext
 
 abstract class CandidateSwipeGesture : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
     override fun onMove(

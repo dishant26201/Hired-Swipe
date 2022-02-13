@@ -92,7 +92,7 @@ class SignInActivity : AppCompatActivity() {
                         db.collection("Candidates").document(user!!.uid).get().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 val document = task.result
-                                if(document != null) {
+                                if (document != null) {
                                     if (document.exists()) {
                                         updateUICandidate(user)
                                     } else {
