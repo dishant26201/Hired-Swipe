@@ -127,7 +127,7 @@ class SignInActivity : AppCompatActivity() {
                                                     val intent = Intent(this@SignInActivity, SelectUserTypeActivity::class.java)
                                                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // get rid of extra layers/info from previous activities
                                                     startActivity(intent) // start next activity
-                                                    finish() // finish currenrt activity
+                                                    finish() // finish current activity
                                                 }
                                             } else {
 //                                                    Log.d("TAG", "Error: ", task.exception)

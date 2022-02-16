@@ -1,0 +1,7 @@
+
+Akotlin:S1172œ"(Remove these unused function parameters.(´”Ò¦
+lkotlin:S6306<"TUsing "GlobalScope" here leads to the breaking of structured concurrency principles.(á¥ €
+:kotlin:S1874z"#Deprecated code should not be used.(¬ê«x
+Akotlin:S1874ˆ"#Deprecated code should not be used.(»çÐ³øÿÿÿÿ
+kkotlin:S3776œ"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(´”Ò¦
+4kotlin:S6310<"Avoid hardcoded dispatchers.(á¥ €

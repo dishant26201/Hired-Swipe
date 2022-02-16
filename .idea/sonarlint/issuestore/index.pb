@@ -7,3 +7,13 @@ h
 8app/src/main/java/com/example/hiredswipe/MainActivity.kt,f/2/f2bb4f3a22c45e668527d5d5c1a96c1dae34839e
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+j
+:app/src/main/java/com/example/hiredswipe/SignInActivity.kt,9/1/91da623ec70428ccb2673bc971297bb58f833f6a
+r
+Bapp/src/main/java/com/example/hiredswipe/SelectUserTypeActivity.kt,b/7/b7d089e47de724150a593478f217fb11bd207a7b
+l
+<app/src/main/java/com/example/hiredswipe/RegisterActivity.kt,e/0/e04521915799fc0ea3a104db9021bfc85d874bbe
+c
+3app/src/main/java/com/example/hiredswipe/JobItem.kt,0/a/0a9f29ae3ff0a3bd4373206a59d794936b23e395
+|
+Lapp/src/main/java/com/example/hiredswipe/candidate/CandidateSwipeFragment.kt,7/1/71533c543b6dd5058df35307e8903cb805dd2066
