@@ -5,4 +5,4 @@ data class Recruiter(
     var swipedLeft: List<String>? = emptyList(),
     var swipedRight: List<String>? = emptyList(),
     var id: String? = ""
-) {}
+) { }
