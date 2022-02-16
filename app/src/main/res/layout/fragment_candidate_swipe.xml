@@ -68,9 +68,4 @@
             android:src="@drawable/ic_thumb_down" />
     </LinearLayout>
 
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

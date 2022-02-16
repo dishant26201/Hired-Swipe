@@ -58,10 +58,12 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         recyclerView.adapter = candidateSwipeAdapter
 
         GlobalScope.launch(Dispatchers.IO) {
-            val swipedLeft = db.collection("Candidates").document(uid)
+            var swipedLeft : List<String>? = null
+            var swipedRight : List<String>? = null
+            swipedLeft = db.collection("Candidates").document(uid)
                 .get().await()
                 .toObject(Recruiter::class.java)!!.swipedLeft
-            val swipedRight = db.collection("Candidates").document(uid)
+            swipedRight = db.collection("Candidates").document(uid)
                 .get().await()
                 .toObject(Recruiter::class.java)!!.swipedRight
             EventChangeListener(uid, swipedLeft!!, swipedRight!!)
@@ -149,7 +151,6 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         }
         val itemTouchHelper = ItemTouchHelper(swipeGesture)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
         return view
     }
 
@@ -160,17 +161,18 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
                     if (error != null) {
                         Log.d(TAG, "Firestore error: ${error.message.toString()}")
                         return
-                    } else {
+                    }
+                    else {
                         for (dc: DocumentChange in value?.documentChanges!!) {
                             if (dc.type == DocumentChange.Type.ADDED) {
                                 val documentRecruiter = dc.document
-                                if (swipedLeft.contains(documentRecruiter.id)) {
+                                if (swipedLeft.contains(documentRecruiter.id) || swipedRight.contains(documentRecruiter.id)) {
                                     Log.d(TAG, "document not shown")
                                 }
                                 else {
                                     val recruiter = documentRecruiter.toObject(Recruiter::class.java)
                                     recruiter.id = documentRecruiter.id
-                                    Log.d(TAG, "Candidate added to candidateArrayList: ${recruiter}")
+                                    Log.d(TAG, "Recruiter added to jobArrayList: ${recruiter}")
                                     jobArrayList.add(recruiter)
                                 }
                             }
@@ -211,25 +213,6 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
                             .update("matched", FieldValue.arrayUnion(uid))
                     }
             }
-//            db.collection("Recruiters").document(currentRecruiter.id!!)
-//                .get()
-//                .addOnSuccessListener { document ->
-//                    Log.d(TAG, "currentRecruiter ID: ${document.id}")
-//                    Log.d(TAG, "currentRecruiter from DB: ${document.data}")
-//                    val swipedRight = document.data!!["swipedRight"] as List<*>?
-//                    Log.d(TAG, "currentRecruiter swipedRight: $swipedRight")
-//                    Toast.makeText(context, "It's a match!", Toast.LENGTH_SHORT).show()
-//
-//                    if (swipedRight!!.contains(uid.toString())) {
-//                        Toast.makeText(context, "It's a match!", Toast.LENGTH_SHORT).show()
-//                    }
-//                    jobArrayList.removeAt(index) // removing the card and updating the adapter
-//                    candidateSwipeAdapter.notifyItemRemoved(index)
-//
-//                    Log.d(TAG, currentRecruiter.name.toString())
-//                    Log.d(TAG, currentRecruiter.id.toString())
-//
-//                }
         }
         else {
             Log.i(TAG, "Error invalid pos: $index")

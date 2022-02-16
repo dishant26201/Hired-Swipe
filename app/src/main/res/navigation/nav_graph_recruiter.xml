@@ -10,23 +10,26 @@
         android:name="com.example.hiredswipe.recruiter.RecruiterSwipeFragment"
         android:label="fragment_recruiter_swipe"
         tools:layout="@layout/fragment_recruiter_swipe" >
-<!--        <action-->
-<!--            android:id="@+id/action_candidateSwipeFragment_to_settingsFragment"-->
-<!--            app:destination="@id/settingsFragment" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_candidateSwipeFragment_to_messagesFragment"-->
-<!--            app:destination="@id/messagesFragment" />-->
+
+        <action
+            android:id="@+id/action_recruiterSwipeFragment_to_recruiterChatFragment"
+            app:destination="@id/recruiterChatFragment" />
+        <action
+            android:id="@+id/action_recruiterSwipeFragment_to_recruiterSettingsFragment"
+            app:destination="@id/recruiterSettingsFragment" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/settingsFragment"-->
-<!--        android:name="com.example.projectx.SettingsFragment"-->
-<!--        android:label="fragment_setings"-->
-<!--        tools:layout="@layout/fragment_setings" />-->
+    <fragment
+        android:id="@+id/recruiterChatFragment"
+        android:name="com.example.hiredswipe.recruiter.RecruiterChatFragment"
+        android:label="fragment_recruiter_chat"
+        tools:layout="@layout/fragment_recruiter_chat" >
+    </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/messagesFragment"-->
-<!--        android:name="com.example.projectx.ChatFragment"-->
-<!--        android:label="fragment_messages"-->
-<!--        tools:layout="@layout/fragment_chat" />-->
+    <fragment
+        android:id="@+id/recruiterSettingsFragment"
+        android:name="com.example.hiredswipe.recruiter.RecruiterSettingsFragment"
+        android:label="fragment_recruiter_settings"
+        tools:layout="@layout/fragment_recruiter_settings" >
+    </fragment>
 </navigation>

@@ -5,10 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hiredswipe.JobItem
 import com.example.hiredswipe.R
 import com.example.hiredswipe.Recruiter
-
 
 class CandidateSwipeAdapter(private val jobList: ArrayList<Recruiter>) :
     RecyclerView.Adapter<CandidateSwipeAdapter.ExampleViewHolder>() {

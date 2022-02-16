@@ -10,23 +10,25 @@
         android:name="com.example.hiredswipe.candidate.CandidateSwipeFragment"
         android:label="fragment_candidate_swipe"
         tools:layout="@layout/fragment_candidate_swipe" >
-<!--        <action-->
-<!--            android:id="@+id/action_candidateSwipeFragment_to_settingsFragment"-->
-<!--            app:destination="@id/settingsFragment" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_candidateSwipeFragment_to_messagesFragment"-->
-<!--            app:destination="@id/messagesFragment" />-->
+        <action
+            android:id="@+id/action_candidateSwipeFragment_to_candidateChatFragment"
+            app:destination="@id/candidateChatFragment" />
+        <action
+            android:id="@+id/action_candidateSwipeFragment_to_candidateSettingsFragment"
+            app:destination="@id/candidateSettingsFragment" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/settingsFragment"-->
-<!--        android:name="com.example.projectx.SettingsFragment"-->
-<!--        android:label="fragment_setings"-->
-<!--        tools:layout="@layout/fragment_setings" />-->
+    <fragment
+        android:id="@+id/candidateChatFragment"
+        android:name="com.example.hiredswipe.candidate.CandidateChatFragment"
+        android:label="fragment_candidate_chat"
+        tools:layout="@layout/fragment_candidate_chat" >
+    </fragment>
+    
+    <fragment
+        android:id="@+id/candidateSettingsFragment"
+        android:name="com.example.hiredswipe.candidate.CandidateSettingsFragment"
+        android:label="fragment_candidate_settings"
+        tools:layout="@layout/fragment_candidate_settings" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/messagesFragment"-->
-<!--        android:name="com.example.projectx.ChatFragment"-->
-<!--        android:label="fragment_messages"-->
-<!--        tools:layout="@layout/fragment_chat" />-->
 </navigation>
