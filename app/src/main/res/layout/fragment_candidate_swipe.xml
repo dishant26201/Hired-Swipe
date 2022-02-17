@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.02" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -34,84 +34,74 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <!-- Insert Top Nav Bar here -->
-    <LinearLayout
-        android:id="@+id/topNav"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topNavCandidate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginHorizontal="15dp"
+        android:paddingHorizontal="8dp"
         app:layout_constraintTop_toTopOf="@+id/guideline1">
+
         <ImageButton
             android:id="@+id/btnProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
+            android:background="@drawable/circular_bordershape"
             android:src="@drawable/ic_profile"
-            android:background="@android:color/transparent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="wrap_content"
+        <SearchView
+            android:id="@+id/svCandidateSwipe"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="20" />
-
+            android:background="@drawable/et_style"
+            android:backgroundTint="#f2f2f2"
+            android:layout_marginHorizontal="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnFilter"
+            app:layout_constraintStart_toEndOf="@+id/btnProfile"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/btnFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_filter"
-            android:background="@android:color/transparent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--    <TextView-->
+<!--        android:id="@+id/tvEmptyRvCandidate"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:text="We can't find any jobs matching your search criteria.\nModify your search criteria to view more jobs."-->
+<!--        android:textColor="@color/lead"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/guideline2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:visibility="invisible"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/rvMainCandidate"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttons"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topNav"
-        app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/job_item" />
-
-    <LinearLayout
-        android:id="@+id/buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="2dp">
-
-        <ImageButton
-            android:id="@+id/btnNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/round_button"
-            android:src="@drawable/ic_no" />
-
-        <Space
-            android:layout_width="75dp"
-            android:layout_height="match_parent" />
-
-        <ImageButton
-            android:id="@+id/btnYes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/round_button"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_yes" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/topNavCandidate"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/job_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

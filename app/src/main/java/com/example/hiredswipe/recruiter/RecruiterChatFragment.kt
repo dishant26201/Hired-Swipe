@@ -46,7 +46,7 @@ class RecruiterChatFragment : Fragment(R.layout.fragment_recruiter_chat) {
         candidateChatList = ArrayList()
         adapter = RecruiterChatAdapter(requireContext(), candidateChatList)
 
-        userRecyclerView = binding.rvMain
+        userRecyclerView = binding.rvChatUsersHolderRecruiter
 
         userRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         userRecyclerView.adapter = adapter
