@@ -108,8 +108,9 @@ class SignInActivity : AppCompatActivity() {
                     }
                     else {
                         // If sign in fails, display a message to the user.
-                        Log.d(TAG, "HERE\n\nsignInWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, "" +
+                                "\nsignInWithEmail:failure\n", task.exception)
+                        Toast.makeText(baseContext, task.exception?.message, Toast.LENGTH_SHORT).show()
                     }
                 }
         }

@@ -5,10 +5,6 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
-r
-Bapp/src/main/java/com/example/hiredswipe/SelectUserTypeActivity.kt,b/7/b7d089e47de724150a593478f217fb11bd207a7b
-l
-<app/src/main/java/com/example/hiredswipe/RegisterActivity.kt,e/0/e04521915799fc0ea3a104db9021bfc85d874bbe
 c
 3app/src/main/java/com/example/hiredswipe/JobItem.kt,0/a/0a9f29ae3ff0a3bd4373206a59d794936b23e395
 |
