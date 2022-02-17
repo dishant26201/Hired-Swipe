@@ -102,49 +102,15 @@ class SignInActivity : AppCompatActivity() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(ContentValues.TAG, "signInWithEmail:success")
                         val user = auth.currentUser
+
                         //Here we need to check if user is a candidate, or a recruiter, otherwise we move them to SelectUserTypeActivity
-
-
-
-                        db.collection("Candidates").document(user!!.uid).get().addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                val document = task.result
-                                if (document.exists()) {
-                                    Log.d(TAG, "I AM IN IF line 113")
-                                    updateUICandidate(user)
-                                }
-                                else {
-                                    db.collection("Recruiters").document(user.uid)
-                                        .get().addOnCompleteListener { task ->
-                                            if (task.isSuccessful) {
-                                                val document = task.result
-                                                if (document.exists()) {
-                                                    updateUIRecruiter(user)
-                                                }
-                                                else {
-                                                    // We come in this else block when user exists, but is not a candidate or a recruiter
-                                                    Log.w(TAG, "I AM HERE")
-                                                    val intent = Intent(this@SignInActivity, SelectUserTypeActivity::class.java)
-                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // get rid of extra layers/info from previous activities
-                                                    startActivity(intent) // start next activity
-                                                    finish() // finish current activity
-                                                }
-                                            } else {
-//                                                    Log.d("TAG", "Error: ", task.exception)
-                                                Log.d(TAG, "Error: HERE")
-                                            }
-                                        }
-                                }
-                            }
-                            else {
-                                Log.d(TAG, "Error: ", task.exception)
-                            }
-                        }
+                        checkUserType(user)
                     }
                     else {
                         // If sign in fails, display a message to the user.
-                        Log.d(TAG, "HERE\n\nsignInWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        Log.d(TAG, "" +
+                                "\nsignInWithEmail:failure\n", task.exception)
+                        Toast.makeText(baseContext, task.exception?.message, Toast.LENGTH_SHORT).show()
                     }
                 }
         }
@@ -180,36 +146,10 @@ class SignInActivity : AppCompatActivity() {
                     // sign in success, update UI with the signed-in user's information
                     Log.d(ContentValues.TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-                    db.collection("Candidates").document(user!!.uid)
-                        .get().addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val document = task.result
-                            if(document != null) {
-                                if (document.exists()) {
-                                    updateUICandidate(user)
-                                } else {
-                                    db.collection("Recruiters").document(user!!.uid)
-                                        .get().addOnCompleteListener { task ->
-                                            if (task.isSuccessful) {
-                                                val document = task.result
-                                                if(document != null) {
-                                                    if (document.exists()) {
-                                                        updateUIRecruiter(user)
-                                                    } else {
-                                                        Log.w(ContentValues.TAG, "signInWithCredential:failure", task.exception)
-                                                    }
-                                                }
-                                            } else {
-                                                Log.d("TAG", "Error: ", task.exception)
-                                            }
-                                        }
-                                }
-                            }
-                        }
-                        else {
-                            Log.d("TAG", "Error: ", task.exception)
-                        }
-                    }
+
+                    //Here we need to check if user is a candidate, or a recruiter, otherwise we move them to SelectUserTypeActivity
+                    checkUserType(user)
+
                 } else {
                     // if sign in fails, display a message to the user.
                     Log.w(ContentValues.TAG, "signInWithCredential:failure", task.exception)
@@ -219,6 +159,42 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun reload() {
+    }
+
+    private fun checkUserType(user: FirebaseUser?){
+        db.collection("Candidates").document(user!!.uid).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                if (document.exists()) {
+                    updateUICandidate(user)
+                }
+                else {
+                    db.collection("Recruiters").document(user.uid)
+                        .get().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val document = task.result
+                                if (document.exists()) {
+                                    updateUIRecruiter(user)
+                                }
+                                else {
+                                    // We come in this else block when user exists, but is not a candidate or a recruiter
+                                    Log.w(TAG, "I AM HERE")
+                                    val intent = Intent(this@SignInActivity, SelectUserTypeActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // get rid of extra layers/info from previous activities
+                                    startActivity(intent) // start next activity
+                                    finish() // finish current activity
+                                }
+                            } else {
+//                                                    Log.d("TAG", "Error: ", task.exception)
+                                Log.d(TAG, "Error: HERE")
+                            }
+                        }
+                }
+            }
+            else {
+                Log.d(TAG, "Error: ", task.exception)
+            }
+        }
     }
 
     private fun updateUIRecruiter(user: FirebaseUser?) {

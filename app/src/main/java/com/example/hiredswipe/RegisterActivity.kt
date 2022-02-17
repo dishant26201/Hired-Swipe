@@ -108,17 +108,19 @@ class RegisterActivity : AppCompatActivity() {
                 val intent = Intent(this@RegisterActivity, SelectUserTypeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // get rid of extra layers/info from previous activities
                 startActivity(intent) // start next activity
-                finish() // finish currenrt activity
+                finish() // finish current activity
             }
             // if the registration is unsuccessful
             else {
+
                 binding.btnNormalCreateAccount.isEnabled = true
                 binding.btnNormalCreateAccount.isClickable = true
                 // failure message
                 Log.d(TAG, "createUserWithEmail:failure")
+
                 Toast.makeText(
                     this@RegisterActivity,
-                    "Authentication failed",
+                    task.exception?.message,
                     Toast.LENGTH_SHORT
                 ).show()
             }
