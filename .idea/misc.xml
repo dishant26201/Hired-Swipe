@@ -14,22 +14,17 @@
         <entry key="app/src/main/res/drawable/et_style.xml" value="0.40520833333333334" />
         <entry key="app/src/main/res/drawable/ic_add_circle.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.30185185185185187" />
-        <entry key="app/src/main/res/drawable/ic_left_swipe_icon.xml" value="0.30185185185185187" />
-        <entry key="app/src/main/res/drawable/ic_no_disabled.xml" value="0.30185185185185187" />
-        <entry key="app/src/main/res/drawable/ic_person_type1.xml" value="0.30185185185185187" />
-        <entry key="app/src/main/res/drawable/ic_right_swipe_icon.xml" value="0.30185185185185187" />
         <entry key="app/src/main/res/drawable/ic_filter.xml" value="0.1712962962962963" />
+        <entry key="app/src/main/res/drawable/ic_left_swipe_icon.xml" value="0.30185185185185187" />
         <entry key="app/src/main/res/drawable/ic_no.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/drawable/ic_no_disabled.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/ic_person_elderly.xml" value="0.2564814814814815" />
         <entry key="app/src/main/res/drawable/ic_person_type1.xml" value="0.30185185185185187" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.27685185185185185" />
+        <entry key="app/src/main/res/drawable/ic_right_swipe_icon.xml" value="0.30185185185185187" />
         <entry key="app/src/main/res/drawable/ic_round_arrow.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/ic_thumb_down.xml" value="0.14351851851851852" />
         <entry key="app/src/main/res/drawable/ic_thumb_up.xml" value="0.14351851851851852" />
-        <entry key="app/src/main/res/drawable/ic_yes.xml" value="0.30185185185185187" />
-        <entry key="app/src/main/res/drawable/ic_yes_disabled.xml" value="0.30185185185185187" />
-        <entry key="app/src/main/res/drawable/round_button.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/ic_thumb_up_disabled.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/ic_yes.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/drawable/ic_yes_disabled.xml" value="0.2564814814814815" />
@@ -48,23 +43,19 @@
         <entry key="app/src/main/res/layout/activity_welcome_screen.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_work_entry_form.xml" value="0.3491847826086957" />
         <entry key="app/src/main/res/layout/activity_work_setup.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/candidate_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/candidate_item.xml" value="0.1204724409448819" />
         <entry key="app/src/main/res/layout/education_entry.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_candidate_chat.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_candidate_settings.xml" value="0.20516304347826086" />
-        <entry key="app/src/main/res/layout/fragment_candidate_swipe.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_recruiter_chat.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_recruiter_settings.xml" value="0.20516304347826086" />
-        <entry key="app/src/main/res/layout/fragment_recruiter_swipe.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/ic_person_elderly.xml" value="0.33152173913043476" />
-        <entry key="app/src/main/res/layout/job_item.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_candidate_swipe.xml" value="0.31125827814569534" />
+        <entry key="app/src/main/res/layout/fragment_candidate_swipe.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_recruiter_chat.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_recruiter_settings.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/fragment_recruiter_swipe.xml" value="0.17604166666666668" />
         <entry key="app/src/main/res/layout/ic_person_elderly.xml" value="0.33152173913043476" />
-        <entry key="app/src/main/res/layout/job_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/job_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/rv_secondary.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/rv_secondary_recruiter.xml" value="0.10625" />
         <entry key="app/src/main/res/layout/splash_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/username_chat_entry.xml" value="0.37092391304347827" />
         <entry key="app/src/main/res/layout/work_entry.xml" value="0.3491847826086957" />
