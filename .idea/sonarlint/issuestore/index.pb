@@ -5,9 +5,13 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
-c
-3app/src/main/java/com/example/hiredswipe/JobItem.kt,0/a/0a9f29ae3ff0a3bd4373206a59d794936b23e395
-|
-Lapp/src/main/java/com/example/hiredswipe/candidate/CandidateSwipeFragment.kt,7/1/71533c543b6dd5058df35307e8903cb805dd2066
 q
 Aapp/src/main/java/com/example/hiredswipe/WelcomeScreenActivity.kt,7/3/734a81738d536151f346825f500b5404250c625f
+{
+Kapp/src/main/java/com/example/hiredswipe/candidate/WorkEntryFormActivity.kt,6/2/628c82dbbefdcb3f57b3401c3fb2ae03f1fcd53c
+{
+Kapp/src/main/java/com/example/hiredswipe/candidate/CandidateHomeActivity.kt,c/3/c3458274cbdf188db9fbe96ef76921832f9b9bc8
+{
+Kapp/src/main/java/com/example/hiredswipe/recruiter/RecruiterHomeActivity.kt,c/c/cc41a4335d5b0181775ab7957dab498d5376ca41
+€
+Papp/src/main/java/com/example/hiredswipe/candidate/CandidateBasicInfoActivity.kt,5/f/5f51e08306da00c08f026ed271538c8a939fad96

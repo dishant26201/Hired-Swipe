@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isEmpty
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.example.hiredswipe.R
@@ -25,7 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
@@ -57,7 +54,7 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         recyclerView.layoutManager = mLayoutManager
         recyclerView.setHasFixedSize(true) // setHasFixedSize can be used for optimization purposes if we know that the list/rv is constant in size, and is not affected by the adapters size
         jobArrayList = arrayListOf()
-        candidateSwipeAdapter = CandidateSwipeAdapter(jobArrayList)
+        candidateSwipeAdapter = CandidateSwipeAdapter(requireActivity().applicationContext, jobArrayList)
         recyclerView.adapter = candidateSwipeAdapter
 
 
@@ -76,42 +73,39 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerView)
 
-        candidateSwipeAdapter.setOnButtonClickListener(object : CandidateSwipeAdapter.onButtonClickListener {
+        candidateSwipeAdapter.setOnClickListener(object : CandidateSwipeAdapter.OnClickListener {
             override fun onYesClick() {
-                val cardPos = getCardPos()  //getting the correct position for the card which is swiped
-                val swipedRecruiter = jobArrayList[cardPos]
-                swipeYes(cardPos, uid, swipedRecruiter)
-                Log.d(TAG, "swipeYes")
+                swipeYes()
+                Log.d(TAG, "swipeYes in $TAG")
             }
 
             override fun onNoClick() {
-                val cardPos = getCardPos()  //getting the correct position for the card which is swiped
-                val swipedRecruiter = jobArrayList[cardPos]
-                swipeNo(cardPos, uid, swipedRecruiter)
-                Log.d(TAG, "swipeNo")
+                swipeNo()
+                Log.d(TAG, "swipeNo in $TAG")
             }
         })
 
-        // initializing swipeGesture and passing it to itemTouchHelper
-        // then we attach the itemTouchHelper to the recyclerView
-        val swipeGesture = object : CandidateSwipeGesture(){
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val itemPos = viewHolder.position
-                val swipedRecruiter = jobArrayList[itemPos]
-                when (direction){
-                    ItemTouchHelper.LEFT -> {
-                        swipeNo(itemPos, uid, swipedRecruiter)
-                    }
-                    ItemTouchHelper.RIGHT-> {
-                        Log.d(TAG, jobArrayList[viewHolder.position].id.toString())
-                        swipeYes(itemPos, uid, swipedRecruiter)
-                    }
-                }
-                super.onSwiped(viewHolder, direction)
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(swipeGesture)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+//        // initializing swipeGesture and passing it to itemTouchHelper
+//        // then we attach the itemTouchHelper to the recyclerView
+//        val swipeGesture = object : CandidateSwipeGesture(){
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                val itemPos = viewHolder.position
+//                val swipedRecruiter = jobArrayList[itemPos]
+//                when (direction){
+//                    ItemTouchHelper.LEFT -> {
+//                        swipeNo()
+//                    }
+//                    ItemTouchHelper.RIGHT-> {
+//                        Log.d(TAG, jobArrayList[viewHolder.position].id.toString())
+//                        swipeYes()
+//                    }
+//                }
+//                super.onSwiped(viewHolder, direction)
+//            }
+//        }
+//        val itemTouchHelper = ItemTouchHelper(swipeGesture)
+//        itemTouchHelper.attachToRecyclerView(recyclerView)
         return view
     }
 
@@ -154,13 +148,19 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         //if cardPos = -1, this mean no view is completely visible and we have to align them first
         if (cardPos == -1) {
             Log.i(TAG, "Error, could not find a completelyVisibleItem")
+            Toast.makeText(context, "Error, could not find a completelyVisibleItem", Toast.LENGTH_SHORT).show()
             cardPos = 0
         }
         return cardPos
     }
 
-    private fun swipeYes(index : Int, uid : String, swipedRecruiter: Recruiter) {
+    private fun swipeYes() {
         Log.i(TAG, "Yes Clicked!")
+
+        val uid = auth.currentUser!!.uid
+        val index = getCardPos()
+        val swipedRecruiter = jobArrayList[index]
+
         if (index >= 0) {
             db.collection("Candidates").document(uid)
                 .update("swipedRight", FieldValue.arrayUnion(swipedRecruiter.id.toString()))
@@ -189,14 +189,19 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         }
     }
 
-    private fun swipeNo(index : Int, uid : String, swipedRecruiter: Recruiter) {
+    private fun swipeNo() {
         Log.i(TAG, "No Clicked")
-        if (index >= 0) {
+
+        val uid = auth.currentUser!!.uid
+        val itemPos = getCardPos()
+        val swipedRecruiter = jobArrayList[itemPos]
+
+        if (itemPos >= 0) {
             db.collection("Candidates").document(uid)
                 .update("swipedLeft", FieldValue.arrayUnion(swipedRecruiter.id.toString()))
                 .addOnSuccessListener {
-                    jobArrayList.removeAt(index) // removing the card and updating the adapter
-                    candidateSwipeAdapter.notifyItemRemoved(index)
+                    jobArrayList.removeAt(itemPos) // removing the card and updating the adapter
+                    candidateSwipeAdapter.notifyItemRemoved(itemPos)
                 }
                 .addOnFailureListener {
                     Log.d(TAG, "swipeLeftGesture: failed")
@@ -204,7 +209,7 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
         }
         // if pos is null or invalid
         else{
-            Log.i(TAG, "Error invalid pos: $index")
+            Log.i(TAG, "Error invalid pos: $itemPos")
         }
     }
 }

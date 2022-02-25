@@ -56,7 +56,7 @@ class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
         recyclerView.layoutManager = mLayoutManager
         recyclerView.setHasFixedSize(true) // setHasFixedSize can be used for optimization purposes if we know that the list/rv is constant in size, and is not affected by the adapters size
         candidateArrayList = arrayListOf()
-        recruiterSwipeAdapter = RecruiterSwipeAdapter(candidateArrayList)
+        recruiterSwipeAdapter = RecruiterSwipeAdapter(requireActivity().applicationContext, candidateArrayList)
         recyclerView.adapter = recruiterSwipeAdapter
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -74,43 +74,38 @@ class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerView)
 
-        recruiterSwipeAdapter.setOnButtonClickListener(object : RecruiterSwipeAdapter.onButtonClickListener {
+        recruiterSwipeAdapter.setOnClickListener(object : RecruiterSwipeAdapter.OnClickListener {
             override fun onYesClick() {
-                val cardPos = getCardPos()  //getting the correct position for the card which is swiped
-                val swipedCandidate = candidateArrayList[cardPos]
-                swipeYes(cardPos, uid, swipedCandidate)
-                Log.d(TAG, "swipeYes")
+                swipeYes()
+                Log.d(TAG, "swipeYes in $TAG")
             }
 
             override fun onNoClick() {
-                val cardPos = getCardPos()  //getting the correct position for the card which is swiped
-                val swipedCandidate = candidateArrayList[cardPos]
-                swipeNo(cardPos, uid, swipedCandidate)
-                Log.d(TAG, "swipeNo")
+                swipeNo()
+                Log.d(TAG, "swipeNo in $TAG")
             }
-
         })
 
-        // initializing swipeGesture and passing it to itemTouchHelper
-        // then we attach the itemTouchHelper to the recyclerView
-        val swipeGesture = object : RecruiterSwipeGesture(){
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val itemPos = viewHolder.position
-                val swipedCandidate = candidateArrayList[itemPos]
-                when (direction){
-                    ItemTouchHelper.LEFT -> {
-                        swipeNo(itemPos, uid, swipedCandidate)
-                    }
-                    ItemTouchHelper.RIGHT-> {
-                        Log.d(TAG, candidateArrayList[viewHolder.position].id.toString())
-                        swipeYes(itemPos, uid, swipedCandidate)
-                    }
-                }
-                super.onSwiped(viewHolder, direction)
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(swipeGesture)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+//        // initializing swipeGesture and passing it to itemTouchHelper
+//        // then we attach the itemTouchHelper to the recyclerView
+//        val swipeGesture = object : RecruiterSwipeGesture(){
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                val itemPos = viewHolder.position
+//                val swipedCandidate = candidateArrayList[itemPos]
+//                when (direction){
+//                    ItemTouchHelper.LEFT -> {
+//                        swipeNo(itemPos, uid, swipedCandidate)
+//                    }
+//                    ItemTouchHelper.RIGHT-> {
+//                        Log.d(TAG, candidateArrayList[viewHolder.position].id.toString())
+//                        swipeYes(itemPos, uid, swipedCandidate)
+//                    }
+//                }
+//                super.onSwiped(viewHolder, direction)
+//            }
+//        }
+//        val itemTouchHelper = ItemTouchHelper(swipeGesture)
+//        itemTouchHelper.attachToRecyclerView(recyclerView)
         return view
     }
 
@@ -153,13 +148,19 @@ class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
         //if cardPos = -1, this mean no view is completely visible and we have to align them first
         if (cardPos == -1) {
             Log.i(TAG, "Error, could not find a completelyVisibleItem")
+            Toast.makeText(context, "Error, could not find a completelyVisibleItem", Toast.LENGTH_SHORT).show()
             cardPos = 0
         }
         return cardPos
     }
 
-    private fun swipeYes(index : Int, uid : String, swipedCandidate: Candidate) {
+    private fun swipeYes() {
         Log.i(TAG, "Yes Clicked!")
+
+        val uid = auth.currentUser!!.uid
+        val index = getCardPos()
+        val swipedCandidate = candidateArrayList[index]
+
         if (index >= 0) {
             db.collection("Recruiters").document(uid)
                 .update("swipedRight", FieldValue.arrayUnion(swipedCandidate.id.toString()))
@@ -188,8 +189,13 @@ class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
         }
     }
 
-    private fun swipeNo(index : Int, uid : String, swipedCandidate: Candidate) {
+    private fun swipeNo() {
         Log.i(TAG, "No Clicked")
+
+        val uid = auth.currentUser!!.uid
+        val index = getCardPos()
+        val swipedCandidate = candidateArrayList[index]
+
         if (index >= 0) {
             db.collection("Recruiters").document(uid)
                 .update("swipedLeft", FieldValue.arrayUnion(swipedCandidate.id.toString()))
