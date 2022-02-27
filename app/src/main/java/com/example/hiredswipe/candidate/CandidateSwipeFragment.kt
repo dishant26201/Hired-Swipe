@@ -88,24 +88,24 @@ class CandidateSwipeFragment : Fragment(R.layout.fragment_candidate_swipe) {
 
 //        // initializing swipeGesture and passing it to itemTouchHelper
 //        // then we attach the itemTouchHelper to the recyclerView
-//        val swipeGesture = object : CandidateSwipeGesture(){
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                val itemPos = viewHolder.position
-//                val swipedRecruiter = jobArrayList[itemPos]
-//                when (direction){
-//                    ItemTouchHelper.LEFT -> {
-//                        swipeNo()
-//                    }
-//                    ItemTouchHelper.RIGHT-> {
-//                        Log.d(TAG, jobArrayList[viewHolder.position].id.toString())
-//                        swipeYes()
-//                    }
-//                }
-//                super.onSwiped(viewHolder, direction)
-//            }
-//        }
-//        val itemTouchHelper = ItemTouchHelper(swipeGesture)
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
+        val swipeGesture = object : CandidateSwipeGesture(){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val itemPos = viewHolder.position
+                val swipedRecruiter = jobArrayList[itemPos]
+                when (direction){
+                    ItemTouchHelper.LEFT -> {
+                        swipeNo()
+                    }
+                    ItemTouchHelper.RIGHT-> {
+                        Log.d(TAG, jobArrayList[viewHolder.position].id.toString())
+                        swipeYes()
+                    }
+                }
+                super.onSwiped(viewHolder, direction)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeGesture)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
         return view
     }
 

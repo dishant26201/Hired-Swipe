@@ -46,7 +46,6 @@ class RecruiterChildAdapter(private val exampleList: List<CandidateItem>) : Recy
         val rightSide: View = itemView.findViewById(R.id.vCardRightClick)
 
 
-
         init {
 
             //onclick listener for the cardView (left and right sides)

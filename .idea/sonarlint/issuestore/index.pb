@@ -15,3 +15,5 @@ Kapp/src/main/java/com/example/hiredswipe/candidate/CandidateHomeActivity.kt,c/
 Kapp/src/main/java/com/example/hiredswipe/recruiter/RecruiterHomeActivity.kt,c/c/cc41a4335d5b0181775ab7957dab498d5376ca41
 €
 Papp/src/main/java/com/example/hiredswipe/candidate/CandidateBasicInfoActivity.kt,5/f/5f51e08306da00c08f026ed271538c8a939fad96
+@
+app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
