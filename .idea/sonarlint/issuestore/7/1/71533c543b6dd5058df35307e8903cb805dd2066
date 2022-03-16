@@ -1,0 +1,7 @@
+
+skotlin:S6306="TUsing "GlobalScope" here leads to the breaking of structured concurrency principles.(á¥ €8ßôËó/
+Skotlin:S1481^"4Remove this unused "swipedRecruiter" local variable.(ƒÂ•€8Æ’¿ìó/
+Akotlin:S1874]"#Deprecated code should not be used.(¬ê«x8Ê’¿ìó/
+Gkotlin:S1874d"#Deprecated code should not be used.(»çĞ³øÿÿÿÿ8Ê’¿ìó/
+vkotlin:S3776p"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(„“©şÿÿÿÿ8æôËó/
+;kotlin:S6310="Avoid hardcoded dispatchers.(á¥ €8çôËó/

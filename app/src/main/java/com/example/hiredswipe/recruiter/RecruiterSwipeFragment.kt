@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
-import com.example.hiredswipe.R
 import com.example.hiredswipe.databinding.FragmentRecruiterSwipeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -19,8 +17,8 @@ import com.google.firebase.ktx.Firebase
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hiredswipe.Candidate
-import com.example.hiredswipe.Recruiter
+import com.example.hiredswipe.*
+import com.example.hiredswipe.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -127,12 +125,35 @@ class RecruiterSwipeFragment : Fragment(R.layout.fragment_recruiter_swipe) {
                                 else {
                                     val candidate = documentCandidate.toObject(Candidate::class.java)
                                     candidate.id = documentCandidate.id
-                                    Log.d(TAG, "Candidate added to candidateArrayList: ${candidate}")
-                                    candidateArrayList.add(candidate)
+
+                                    /*
+                                        Here we getting "Education" and "Work" sub collections from firestore
+                                        I have used nested onSuccess calls here to get the data
+                                        This WILL result in a crash/ bug if either calls for Education or Work are not successful
+                                        Need to implement a better way to get data from both sub collections
+                                     */
+
+                                    val getEducationList = db.collection("Candidates").document(documentCandidate.id).collection("Education").get()
+                                    val getWorkExpList = db.collection("Candidates").document(documentCandidate.id).collection("Work").get()
+                                    getEducationList.addOnSuccessListener {
+                                        it.forEach { curr ->
+                                            candidate.educationList.add(curr.toObject(CandidateEducation::class.java))
+                                        }
+
+                                        getWorkExpList.addOnSuccessListener { it2 ->
+                                            it2.forEach { curr ->
+                                               candidate.workExpList.add(curr.toObject(CandidateWorkExp::class.java))
+                                            }
+                                            Log.d(TAG, "Candidate added to candidateArrayList: $candidate")
+                                            candidateArrayList.add(candidate)
+
+                                            recruiterSwipeAdapter.notifyDataSetChanged()
+                                        }
+                                    }
+
                                 }
                             }
                         }
-                        recruiterSwipeAdapter.notifyDataSetChanged()
                     }
                 }
             })

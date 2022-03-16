@@ -43,7 +43,10 @@
         <entry key="app/src/main/res/layout/activity_welcome_screen.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_work_entry_form.xml" value="0.3491847826086957" />
         <entry key="app/src/main/res/layout/activity_work_setup.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/candidate_item.xml" value="0.1204724409448819" />
+        <entry key="app/src/main/res/layout/candidate_item.xml" value="0.68" />
+        <entry key="app/src/main/res/layout/candidate_item_1.xml" value="0.32893716058960437" />
+        <entry key="app/src/main/res/layout/candidate_item_2.xml" value="0.22083333333333333" />
+        <entry key="app/src/main/res/layout/candidate_item_3.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/education_entry.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_candidate_chat.xml" value="0.33" />

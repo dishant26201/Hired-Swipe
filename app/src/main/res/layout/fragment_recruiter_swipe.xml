@@ -102,6 +102,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topNavRecruiter"
         app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/candidate_item"  />
+        tools:listitem="@layout/candidate_item_1"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

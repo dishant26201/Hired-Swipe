@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hiredswipe.R
 import com.example.hiredswipe.Candidate
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class RecruiterSwipeAdapter(private val context: Context, private val candidateList: ArrayList<Candidate>) :
@@ -40,8 +42,7 @@ class RecruiterSwipeAdapter(private val context: Context, private val candidateL
         val currentItem = candidateList[position]
 
         //declaring the variables for DataSet, Adapter, LayoutManager, RecyclerView (of the Secondary RecyclerView)
-        val candidateName = "${currentItem.firstName.toString()} ${currentItem.lastName.toString()}"
-        val childRvList = generateDummyList(candidateName, 4)            // arraylist to store information about job postings
+        val childRvList = generateDummyList(currentItem)            // arraylist to store information about job postings
         val childRvAdapter = RecruiterChildAdapter(childRvList)                                // adapter
 
         val childLayoutManager = object : LinearLayoutManager(context, HORIZONTAL, false){      //layoutManager
@@ -102,15 +103,23 @@ class RecruiterSwipeAdapter(private val context: Context, private val candidateL
         }
     }
 
-    // Generating DummyList for the Secondary RecyclerView Items
-    private fun generateDummyList(name: String, size: Int): List<CandidateItem> {
-        val list = ArrayList<CandidateItem>()
+    // Generating ArrayList for the Secondary RecyclerView Items
+    private fun generateDummyList(current: Candidate): List<Candidate> {
+        val candidateDataList = ArrayList<Candidate>()
 
-        for(i in 0 until size) {
-            val item = CandidateItem("Name: $name", "Item: $i")
-            list += item
+        /*
+            Here we segregate the candidate data into multiple data classes
+                1. The name and email of the Candidate (first card, required)
+                2. The Candidate's Education (second card, optional)
+                3. The Candidate's Work Experience (third card, optional)
+
+                Right now I'm going to send the Candidate object to all cards and display data accordingly
+         */
+
+        for(i in 0 until 3) {
+            candidateDataList.add(current)
         }
-        return list
+        return candidateDataList
     }
 
 }
