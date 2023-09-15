@@ -18,9 +18,6 @@ What we're planning on doing with the project in the future. Add a checklist for
 
 ```
 git clone https://github.com/dishant26201/Hired-Swipe.git
-bla 
-bla 
-bla
 ```
 
 ## Authors and acknowledgment
